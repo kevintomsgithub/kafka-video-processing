@@ -160,5 +160,6 @@ cython_debug/
 #.idea/
 
 # project specific
-kafka/data/
-zookeeper/data/
+kafka/data/*
+zookeeper/data/*
+application/data/*
