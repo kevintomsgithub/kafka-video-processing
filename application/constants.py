@@ -1,0 +1,19 @@
+import os
+
+KAFKA_SERVER_URL = os.environ["KAFKA_SERVER"]
+
+VIDEO_UPLOADED_TOPIC = "uploaded-video"
+MERGE_VIDEO_TOPIC = "merge-video"
+
+BASE_DATA_DIR = "data"
+
+SAMPLE_FILENAME = "sample_720p.mp4"
+OUTPUT_FILENAME = "output.mp4"
+
+CHUNKS_FOLDER = "chunks"
+INPUT_FOLDER = "input"
+OUTPUT_FOLDER = "output"
+
+INPUT_FILEPATH = os.path.join(BASE_DATA_DIR, INPUT_FOLDER, SAMPLE_FILENAME)
+CHUNKS_PATH = os.path.join(BASE_DATA_DIR, CHUNKS_FOLDER)
+OUTPUT_PATH = os.path.join(BASE_DATA_DIR, OUTPUT_FOLDER)
