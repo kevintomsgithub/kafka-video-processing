@@ -1,0 +1,69 @@
+version: "3.8"
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: local/zookeeper:2.7.0
+    build:
+      context: ./zookeeper
+    volumes:
+      - ./zookeeper/zookeeper.properties:/kafka/config/zookeeper.properties
+      - ./zookeeper/data:/tmp/zookeeper/
+
+  kafka:
+    container_name: kafka
+    image: local/kafka:2.7.0
+    build:
+      context: ./kafka
+    volumes:
+      - ./kafka/server.properties:/kafka/config/server.properties
+      - ./kafka/data:/tmp/kafka-logs/
+    depends_on:
+      - zookeeper
+
+  kafka-producer:
+    container_name: kafka-producer
+    image: local/ffmpeg-python:1.0.0
+    build:
+      context: ./application
+    volumes:
+      - ./application:/app
+    environment:
+      - "KAFKA_SERVER=kafka:9092"
+    working_dir: /app
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    depends_on:
+      - kafka
+
+  kafka-consumer-video-split:
+    container_name: kafka-consumer-video-split
+    image: local/ffmpeg-python:1.0.0
+    build:
+      context: ./application
+    volumes:
+      - ./application:/app
+    environment:
+      - "KAFKA_SERVER=kafka:9092"
+    working_dir: /app
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    depends_on:
+      - kafka
+
+  kafka-consumer-video-stitch:
+    container_name: kafka-consumer-video-stitch
+    image: local/ffmpeg-python:1.0.0
+    build:
+      context: ./application
+    volumes:
+      - ./application:/app
+    environment:
+      - "KAFKA_SERVER=kafka:9092"
+    working_dir: /app
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    depends_on:
+      - kafka
